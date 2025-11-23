@@ -1,14 +1,13 @@
-import React from 'react';
+import { useRouter } from 'expo-router';
 import {
-  View,
-  Text,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  Alert,
+  View,
+  SafeAreaView,
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
-import { useRouter } from 'expo-router';
 
 export default function Dashboard() {
   const { state } = useApp();
@@ -40,7 +39,7 @@ export default function Dashboard() {
   );
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Dashboard</Text>
         <Text style={styles.subtitle}>
@@ -83,7 +82,7 @@ export default function Dashboard() {
           <>
             <TouchableOpacity
               style={styles.actionButton}
-              onPress={() => Alert.alert('Crear Servicio', 'Funcionalidad en desarrollo')}
+              onPress={() => router.push('/create-service')}
             >
               <Text style={styles.actionButtonText}>
                 ➕ Crear Solicitud de Servicio
@@ -92,7 +91,7 @@ export default function Dashboard() {
 
             <TouchableOpacity
               style={styles.actionButton}
-              onPress={() => Alert.alert('Solicitar Insumos', 'Funcionalidad en desarrollo')}
+              onPress={() => router.push('/create-supply')}
             >
               <Text style={styles.actionButtonText}>
                 📦 Solicitar Insumos
@@ -115,10 +114,10 @@ export default function Dashboard() {
         {state.currentUser.role === 'Proveedor Insumos' && (
           <TouchableOpacity
             style={styles.actionButton}
-            onPress={() => Alert.alert('Gestionar Ofertas', 'Funcionalidad en desarrollo')}
+            onPress={() => router.push('/(tabs)/counter')}
           >
             <Text style={styles.actionButtonText}>
-              🏪 Gestionar Ofertas de Insumos
+              📦 Ver Insumos Disponibles
             </Text>
           </TouchableOpacity>
         )}
@@ -147,7 +146,7 @@ export default function Dashboard() {
           ))
         )}
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 

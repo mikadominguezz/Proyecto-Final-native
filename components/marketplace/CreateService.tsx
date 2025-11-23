@@ -1,15 +1,16 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  Alert,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    SafeAreaView,
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
-import { useRouter } from 'expo-router';
 
 export default function CreateService() {
   const { state, dispatch } = useApp();
@@ -17,6 +18,7 @@ export default function CreateService() {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [categoria, setCategoria] = useState('Jardinería');
+  const [ubicacion, setUbicacion] = useState('Montevideo');
 
   const categorias = [
     'Jardinería',
@@ -27,6 +29,28 @@ export default function CreateService() {
     'Pintura',
     'Carpintería',
     'Otros',
+  ];
+
+  const ubicaciones = [
+    'Montevideo',
+    'Salto',
+    'Paysandú',
+    'Las Piedras',
+    'Rivera',
+    'Maldonado',
+    'Tacuarembó',
+    'Melo',
+    'Mercedes',
+    'Artigas',
+    'Minas',
+    'San José de Mayo',
+    'Durazno',
+    'Florida',
+    'Canelones',
+    'Colonia del Sacramento',
+    'Punta del Este',
+    'Rocha',
+    'Treinta y Tres',
   ];
 
   const handleSubmit = () => {
@@ -45,6 +69,7 @@ export default function CreateService() {
       titulo: titulo.trim(),
       descripcion: descripcion.trim(),
       categoria,
+      ubicacion,
       estado: 'PENDIENTE',
       solicitanteId: state.currentUser.id,
     };
@@ -55,7 +80,7 @@ export default function CreateService() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Crear Solicitud de Servicio</Text>
 
@@ -109,6 +134,33 @@ export default function CreateService() {
           </ScrollView>
         </View>
 
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Ubicación</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.categoriesContainer}>
+              {ubicaciones.map((ubi) => (
+                <TouchableOpacity
+                  key={ubi}
+                  style={[
+                    styles.categoryButton,
+                    ubicacion === ubi && styles.categoryButtonActive,
+                  ]}
+                  onPress={() => setUbicacion(ubi)}
+                >
+                  <Text
+                    style={[
+                      styles.categoryButtonText,
+                      ubicacion === ubi && styles.categoryButtonTextActive,
+                    ]}
+                  >
+                    {ubi}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>Crear Servicio</Text>
         </TouchableOpacity>
@@ -120,7 +172,7 @@ export default function CreateService() {
           <Text style={styles.cancelButtonText}>Cancelar</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 

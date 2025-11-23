@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useReducer } from "react";
 import {
-  MOCK_USERS,
-  INITIAL_SERVICES,
   INITIAL_QUOTES,
+  INITIAL_SERVICES,
   INITIAL_SUPPLIES,
   INITIAL_SUPPLY_OFFERS,
+  MOCK_USERS,
 } from "../data/mockData";
 
 interface User {
@@ -13,6 +13,8 @@ interface User {
   email: string;
   password: string;
   role: string;
+  rating?: number;
+  totalRatings?: number;
 }
 
 interface Service {
@@ -20,9 +22,11 @@ interface Service {
   titulo: string;
   descripcion: string;
   categoria: string;
+  ubicacion: string;
   estado: string;
   solicitanteId: number;
   cotizacionSeleccionadaId?: number;
+  proveedorAsignadoId?: number;
 }
 
 interface Quote {
@@ -38,9 +42,11 @@ interface Supply {
   id: number;
   nombre: string;
   descripcion: string;
+  categoria: string;
   cantidad: number;
   solicitanteId: number;
   estado: string;
+  ofertaSeleccionadaId?: number;
 }
 
 interface SupplyOffer {
@@ -72,7 +78,9 @@ type AppAction =
   | { type: "UPDATE_SUPPLY"; payload: Supply }
   | { type: "DELETE_SUPPLY"; payload: number }
   | { type: "ADD_SUPPLY_OFFER"; payload: SupplyOffer }
-  | { type: "SELECT_QUOTE"; payload: { serviceId: number; quoteId: number } };
+  | { type: "UPDATE_SUPPLY_OFFER"; payload: SupplyOffer }
+  | { type: "SELECT_QUOTE"; payload: { serviceId: number; quoteId: number } }
+  | { type: "UPDATE_USER"; payload: User };
 
 const initialState: AppState = {
   currentUser: null,
@@ -142,7 +150,16 @@ function appReducer(state: AppState, action: AppAction): AppState {
         supplyOffers: [...state.supplyOffers, action.payload],
       };
     
+    case "UPDATE_SUPPLY_OFFER":
+      return {
+        ...state,
+        supplyOffers: state.supplyOffers.map((o) =>
+          o.id === action.payload.id ? action.payload : o
+        ),
+      };
+    
     case "SELECT_QUOTE":
+      const selectedQuote = state.quotes.find((q) => q.id === action.payload.quoteId);
       return {
         ...state,
         services: state.services.map((s) =>
@@ -151,9 +168,22 @@ function appReducer(state: AppState, action: AppAction): AppState {
                 ...s,
                 estado: "ASIGNADO",
                 cotizacionSeleccionadaId: action.payload.quoteId,
+                proveedorAsignadoId: selectedQuote?.proveedorId,
               }
             : s
         ),
+      };
+    
+    case "UPDATE_USER":
+      return {
+        ...state,
+        users: state.users.map((u) =>
+          u.id === action.payload.id ? action.payload : u
+        ),
+        currentUser:
+          state.currentUser?.id === action.payload.id
+            ? action.payload
+            : state.currentUser,
       };
     
     default:

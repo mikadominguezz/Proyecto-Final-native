@@ -1,50 +1,128 @@
-# Welcome to your Expo app 👋
+# Marketplace de Servicios con Insumos - React Native
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> Aplicación móvil completa desarrollada con React Native y Expo para gestión de servicios, cotizaciones e insumos
 
-## Get started
+## 🚀 Inicio Rápido
 
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Instalación
 
 ```bash
-npm run reset-project
+# Instalar dependencias
+npm install
+
+# Iniciar servidor de desarrollo
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Probar la App
 
-## Learn more
+**Opción 1: En tu dispositivo móvil (Recomendado)**
+1. Instala [Expo Go](https://expo.dev/go) en tu celular
+2. Ejecuta `npm start`
+3. Escanea el código QR con Expo Go (Android) o la cámara (iOS)
 
-To learn more about developing your project with Expo, look at the following resources:
+**Opción 2: En simulador**
+```bash
+# iOS
+npm run ios
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# Android
+npm run android
 
-## Join the community
+# Web
+npm run web
+```
 
-Join our community of developers creating universal apps.
+## 📱 Usuarios de Prueba
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+| Usuario | Email | Password | Rol |
+|---------|-------|----------|-----|
+| María García | maria@example.com | 123456 | Solicitante |
+| Juan Pérez | jardin@example.com | 123456 | Proveedor Servicio |
+| Carlos López | insumos@example.com | 123456 | Proveedor Insumos |
+
+*Tip: En la pantalla de login, toca cualquier usuario para autocompletar las credenciales*
+
+## ✨ Funcionalidades Principales
+
+- ✅ **Login diferenciado** por 3 roles de usuario
+- ✅ **Crear y gestionar servicios** (jardinería, plomería, etc.)
+- ✅ **Enviar y recibir cotizaciones**
+- ✅ **Seleccionar cotización ganadora**
+- ✅ **Solicitar insumos**
+- ✅ **Dashboard personalizado** con estadísticas
+- ✅ **Búsqueda y filtros** de servicios
+- ✅ **Temas claro/oscuro** automáticos
+- ✅ **Navegación intuitiva** con tabs
+
+## 📂 Navegación
+
+### Tabs (Barra inferior)
+- 🏠 **Dashboard**: Estadísticas y acciones rápidas
+- 📋 **Servicios**: Lista de servicios disponibles
+- 📄 **Cotizaciones**: Gestión de ofertas
+- 👤 **Login**: Autenticación
+
+### Pantallas Adicionales
+- Crear Servicio
+- Enviar Cotización
+- Solicitar Insumos
+
+## 📚 Documentación
+
+- [**README_MARKETPLACE.md**](./README_MARKETPLACE.md) - Guía completa de usuario
+- [**RESUMEN_IMPLEMENTACION.md**](./RESUMEN_IMPLEMENTACION.md) - Documentación técnica detallada
+
+## 🛠️ Stack Tecnológico
+
+- **React Native** - Framework móvil
+- **Expo SDK 54** - Tooling y APIs
+- **TypeScript** - Tipado estático
+- **Expo Router** - Navegación
+- **Context API** - Estado global
+
+## 📝 Scripts Disponibles
+
+```bash
+npm start          # Servidor de desarrollo
+npm run android    # Abrir en Android
+npm run ios        # Abrir en iOS
+npm run web        # Abrir en navegador
+npm run lint       # Linter
+```
+
+## 🎯 Estructura del Proyecto
+
+```
+app/
+  (tabs)/          # Pantallas principales con tabs
+  *.tsx            # Pantallas adicionales (crear servicio, etc.)
+  context/         # Estado global
+components/
+  marketplace/     # Componentes de negocio
+  ui/             # Componentes reutilizables
+```
+
+## 📸 Flujo de Uso
+
+1. **Login** → Selecciona un usuario de prueba
+2. **Dashboard** → Ve tus estadísticas
+3. **Crear Servicio** (Solicitante) → Completa el formulario
+4. **Enviar Cotización** (Proveedor) → Cotiza un servicio
+5. **Seleccionar Ganadora** (Solicitante) → Elige la mejor oferta
+
+## 🌟 Características Destacadas
+
+- **Funciona offline** con datos mock completos
+- **Validaciones en tiempo real** en formularios
+- **Feedback visual** con badges de estado
+- **Diseño responsive** adaptado a diferentes pantallas
+- **Código limpio** con TypeScript y best practices
+
+## 📄 Licencia
+
+Este proyecto fue desarrollado como parte del Trabajo Práctico 2025 de Desarrollo Web/Mobile.
+
+---
+
+**Desarrollado con ❤️ usando React Native y Expo**

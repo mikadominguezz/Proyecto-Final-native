@@ -18,6 +18,11 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="create-service" options={{ presentation: 'modal', title: 'Crear Servicio' }} />
+          <Stack.Screen name="create-quote" options={{ presentation: 'modal', title: 'Enviar Cotización' }} />
+          <Stack.Screen name="create-supply" options={{ presentation: 'modal', title: 'Solicitar Insumos' }} />
+          <Stack.Screen name="create-supply-offer" options={{ presentation: 'modal', title: 'Enviar Oferta de Insumo' }} />
+          <Stack.Screen name="compare-quotes" options={{ presentation: 'modal', title: 'Comparar Cotizaciones' }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
         <StatusBar style="auto" />

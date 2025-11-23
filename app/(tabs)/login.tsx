@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { 
-  StyleSheet, 
-  TextInput, 
-  TouchableOpacity, 
-  ScrollView,
+import {
   Alert,
   KeyboardAvoidingView,
-  Platform 
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Fonts, Colors } from '@/constants/theme';
+import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useApp } from '../context/AppContext';
 import { MOCK_USERS } from '../data/mockData';
@@ -51,112 +52,117 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.container} 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ScrollView 
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView 
+        style={styles.keyboardView} 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <ThemedView style={styles.content}>
-          <ThemedView style={styles.header}>
-            <ThemedText 
-              type="title" 
-              style={[styles.title, { fontFamily: Fonts.rounded }]}
-            >
-              Marketplace de Servicios
-            </ThemedText>
-            <ThemedText style={styles.subtitle}>
-              Ingresa tus credenciales para acceder al sistema
-            </ThemedText>
-          </ThemedView>
-
-          <ThemedView style={styles.form}>
-            <ThemedView style={styles.inputGroup}>
-              <ThemedText style={styles.label}>Email</ThemedText>
-              <TextInput
-                style={[
-                  styles.input,
-                  { 
-                    color: textColor,
-                    backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7',
-                    borderColor: isDark ? '#3A3A3C' : '#E5E5EA'
-                  }
-                ]}
-                placeholder="usuario@example.com"
-                placeholderTextColor={isDark ? '#8E8E93' : '#C7C7CC'}
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                autoComplete="email"
-              />
-            </ThemedView>
-
-            <ThemedView style={styles.inputGroup}>
-              <ThemedText style={styles.label}>Contraseña</ThemedText>
-              <TextInput
-                style={[
-                  styles.input,
-                  { 
-                    color: textColor,
-                    backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7',
-                    borderColor: isDark ? '#3A3A3C' : '#E5E5EA'
-                  }
-                ]}
-                placeholder="••••••"
-                placeholderTextColor={isDark ? '#8E8E93' : '#C7C7CC'}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                autoComplete="password"
-              />
-            </ThemedView>
-
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={handleLogin}
-              activeOpacity={0.7}
-            >
-              <ThemedText style={styles.loginButtonText}>
-                Iniciar Sesión
+        <ScrollView 
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <ThemedView style={styles.content}>
+            <ThemedView style={styles.header}>
+              <ThemedText 
+                type="title" 
+                style={[styles.title, { fontFamily: Fonts.rounded }]}
+              >
+                Marketplace de Servicios
               </ThemedText>
-            </TouchableOpacity>
-          </ThemedView>
+              <ThemedText style={styles.subtitle}>
+                Ingresa tus credenciales para acceder al sistema
+              </ThemedText>
+            </ThemedView>
 
-          <ThemedView style={[styles.testUsers, { borderTopColor: isDark ? '#3A3A3C' : '#E5E5EA' }]}>
-            <ThemedText style={styles.testUsersTitle}>
-              Usuarios de prueba:
-            </ThemedText>
-            
-            {MOCK_USERS.map((user) => (
+            <ThemedView style={styles.form}>
+              <ThemedView style={styles.inputGroup}>
+                <ThemedText style={styles.label}>Email</ThemedText>
+                <TextInput
+                  style={[
+                    styles.input,
+                    { 
+                      color: textColor,
+                      backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7',
+                      borderColor: isDark ? '#3A3A3C' : '#E5E5EA'
+                    }
+                  ]}
+                  placeholder="usuario@example.com"
+                  placeholderTextColor={isDark ? '#8E8E93' : '#C7C7CC'}
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  autoComplete="email"
+                />
+              </ThemedView>
+
+              <ThemedView style={styles.inputGroup}>
+                <ThemedText style={styles.label}>Contraseña</ThemedText>
+                <TextInput
+                  style={[
+                    styles.input,
+                    { 
+                      color: textColor,
+                      backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7',
+                      borderColor: isDark ? '#3A3A3C' : '#E5E5EA'
+                    }
+                  ]}
+                  placeholder="••••••"
+                  placeholderTextColor={isDark ? '#8E8E93' : '#C7C7CC'}
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  autoComplete="password"
+                />
+              </ThemedView>
+
               <TouchableOpacity
-                key={user.id}
-                style={[
-                  styles.testUserCard,
-                  { backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7' }
-                ]}
-                onPress={() => fillCredentials(user.email, user.password)}
+                style={styles.loginButton}
+                onPress={handleLogin}
                 activeOpacity={0.7}
               >
-                <ThemedText style={styles.testUserRole}>
-                  {user.role}
-                </ThemedText>
-                <ThemedText style={styles.testUserCredentials}>
-                  {user.email} / {user.password}
+                <ThemedText style={styles.loginButtonText}>
+                  Iniciar Sesión
                 </ThemedText>
               </TouchableOpacity>
-            ))}
+            </ThemedView>
+
+            <ThemedView style={[styles.testUsers, { borderTopColor: isDark ? '#3A3A3C' : '#E5E5EA' }]}>
+              <ThemedText style={styles.testUsersTitle}>
+                Usuarios de prueba:
+              </ThemedText>
+              
+              {MOCK_USERS.map((user) => (
+                <TouchableOpacity
+                  key={user.id}
+                  style={[
+                    styles.testUserCard,
+                    { backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7' }
+                  ]}
+                  onPress={() => fillCredentials(user.email, user.password)}
+                  activeOpacity={0.7}
+                >
+                  <ThemedText style={styles.testUserRole}>
+                    {user.role}
+                  </ThemedText>
+                  <ThemedText style={styles.testUserCredentials}>
+                    {user.email} / {user.password}
+                  </ThemedText>
+                </TouchableOpacity>
+              ))}
+            </ThemedView>
           </ThemedView>
-        </ThemedView>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  keyboardView: {
     flex: 1,
   },
   scrollContent: {

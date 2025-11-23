@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
 import { useRouter } from 'expo-router';
@@ -38,7 +39,7 @@ export default function Login() {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <SafeAreaView style={styles.scrollContent}>
         <View style={styles.formContainer}>
           <Text style={styles.title}>Marketplace de Servicios</Text>
           <Text style={styles.subtitle}>Inicia sesión para continuar</Text>
@@ -90,7 +91,7 @@ export default function Login() {
             ))}
           </View>
         </View>
-      </ScrollView>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 }

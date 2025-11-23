@@ -1,36 +1,121 @@
-import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
+  SafeAreaView,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  TextInput,
-  Alert,
+  View
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
 
 export default function ServicesList() {
   const { state } = useApp();
-  const [filter, setFilter] = useState('');
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState('Todas');
+  const [selectedLocation, setSelectedLocation] = useState('Todas');
+
+  const categorias = [
+    'Todas',
+    'Jardinería',
+    'Plomería',
+    'Electricidad',
+    'Limpieza',
+    'Construcción',
+    'Pintura',
+    'Carpintería',
+    'Otros',
+  ];
+
+  const ubicaciones = [
+    'Todas',
+    'Montevideo',
+    'Salto',
+    'Paysandú',
+    'Las Piedras',
+    'Rivera',
+    'Maldonado',
+    'Tacuarembó',
+    'Melo',
+    'Mercedes',
+    'Artigas',
+    'Minas',
+    'San José de Mayo',
+    'Durazno',
+    'Florida',
+    'Canelones',
+    'Colonia del Sacramento',
+    'Punta del Este',
+    'Rocha',
+    'Treinta y Tres',
+  ];
 
   const filteredServices = state.services.filter(
     (service) =>
       service.estado === 'PENDIENTE' &&
-      (service.titulo.toLowerCase().includes(filter.toLowerCase()) ||
-        service.categoria.toLowerCase().includes(filter.toLowerCase()))
+      (selectedCategory === 'Todas' || service.categoria === selectedCategory) &&
+      (selectedLocation === 'Todas' || service.ubicacion === selectedLocation)
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Servicios Disponibles</Text>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Buscar servicios..."
-          value={filter}
-          onChangeText={setFilter}
-        />
+        
+        <View style={styles.filterSection}>
+          <Text style={styles.filterLabel}>Categoría:</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.filtersContainer}>
+              {categorias.map((cat) => (
+                <TouchableOpacity
+                  key={cat}
+                  style={[
+                    styles.filterButton,
+                    selectedCategory === cat && styles.filterButtonActive,
+                  ]}
+                  onPress={() => setSelectedCategory(cat)}
+                >
+                  <Text
+                    style={[
+                      styles.filterButtonText,
+                      selectedCategory === cat && styles.filterButtonTextActive,
+                    ]}
+                  >
+                    {cat}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+
+        <View style={styles.filterSection}>
+          <Text style={styles.filterLabel}>Ubicación:</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.filtersContainer}>
+              {ubicaciones.map((ubi) => (
+                <TouchableOpacity
+                  key={ubi}
+                  style={[
+                    styles.filterButton,
+                    selectedLocation === ubi && styles.filterButtonActive,
+                  ]}
+                  onPress={() => setSelectedLocation(ubi)}
+                >
+                  <Text
+                    style={[
+                      styles.filterButtonText,
+                      selectedLocation === ubi && styles.filterButtonTextActive,
+                    ]}
+                  >
+                    {ubi}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
       </View>
 
       <ScrollView style={styles.content}>
@@ -62,6 +147,10 @@ export default function ServicesList() {
                   {service.descripcion}
                 </Text>
 
+                <Text style={styles.serviceLocation}>
+                  📍 {service.ubicacion}
+                </Text>
+
                 <View style={styles.cardFooter}>
                   <Text style={styles.solicitante}>
                     👤 {solicitante?.nombre}
@@ -74,12 +163,7 @@ export default function ServicesList() {
                 {state.currentUser?.role === 'Proveedor Servicio' && (
                   <TouchableOpacity
                     style={styles.quoteButton}
-                    onPress={() =>
-                      Alert.alert(
-                        'Enviar Cotización',
-                        `Servicio: ${service.titulo}\nFuncionalidad en desarrollo`
-                      )
-                    }
+                    onPress={() => router.push(`/create-quote?serviceId=${service.id}`)}
                   >
                     <Text style={styles.quoteButtonText}>Enviar Cotización</Text>
                   </TouchableOpacity>
@@ -89,7 +173,7 @@ export default function ServicesList() {
           })
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -110,13 +194,36 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 12,
   },
-  searchInput: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#ddd',
+  filterSection: {
+    marginTop: 12,
+  },
+  filterLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 8,
+  },
+  filtersContainer: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  filterButton: {
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginRight: 8,
+  },
+  filterButtonActive: {
+    backgroundColor: '#007AFF',
+  },
+  filterButtonText: {
+    fontSize: 14,
+    color: '#333',
+  },
+  filterButtonTextActive: {
+    color: 'white',
+    fontWeight: '600',
   },
   content: {
     flex: 1,
@@ -168,6 +275,11 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 12,
     lineHeight: 20,
+  },
+  serviceLocation: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 8,
   },
   cardFooter: {
     flexDirection: 'row',
