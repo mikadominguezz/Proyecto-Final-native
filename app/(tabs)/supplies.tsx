@@ -1,3 +1,3 @@
-import MySupplies from '@/components/marketplace/MySupplies';
+import MySolicitudes from '@/components/marketplace/MySolicitudes';
 
-export default MySupplies;
+export default MySolicitudes;

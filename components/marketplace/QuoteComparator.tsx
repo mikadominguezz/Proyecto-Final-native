@@ -1,13 +1,13 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    SafeAreaView,
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
 
@@ -173,7 +173,7 @@ export default function QuoteComparator({ serviceId }: QuoteComparatorProps) {
         </View>
       </View>
 
-      <View style={styles.quotesContainer}>
+      <ScrollView style={styles.quotesContainer}>
         {sortedQuotes.map((quote, index) => {
           const provider = state.users.find((u) => u.id === quote.proveedorId);
           const isBestPrice = quote.monto === bestPrice;
@@ -234,7 +234,7 @@ export default function QuoteComparator({ serviceId }: QuoteComparatorProps) {
             </View>
           );
         })}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

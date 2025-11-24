@@ -33,14 +33,14 @@ export default function TabLayout() {
       <Tabs.Screen
         name="counter"
         options={{
-          title: 'Cotizaciones',
+          title: 'Ofertas',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="doc.text.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="supplies"
         options={{
-          title: 'Insumos',
+          title: 'Solicitudes',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="shippingbox.fill" color={color} />,
         }}
       />

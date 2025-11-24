@@ -34,7 +34,7 @@ export default function SuppliesList() {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Insumos Solicitados</Text>
         <ScrollView
@@ -64,7 +64,7 @@ export default function SuppliesList() {
         </ScrollView>
       </View>
 
-      <SafeAreaView style={styles.content}>
+      <ScrollView style={styles.content}>
         {filteredSupplies.length === 0 ? (
           <Text style={styles.emptyText}>
             No hay solicitudes de insumos disponibles en este momento
@@ -114,8 +114,8 @@ export default function SuppliesList() {
             );
           })
         )}
-      </SafeAreaView>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

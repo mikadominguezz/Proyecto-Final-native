@@ -1,14 +1,14 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    SafeAreaView,
+  Alert,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
 
@@ -125,7 +125,8 @@ export default function MyQuotes() {
         <Text style={styles.title}>Mis Servicios</Text>
       </View>
 
-      {myServices.map((service) => {
+      <ScrollView>
+        {myServices.map((service) => {
         const quotes = state.quotes.filter((q) => q.servicioId === service.id);
         const provider = service.proveedorAsignadoId
           ? state.users.find((u) => u.id === service.proveedorAsignadoId)
@@ -145,7 +146,9 @@ export default function MyQuotes() {
                   service.estado === 'CANCELADO' && styles.statusCanceled,
                 ]}
               >
-                <Text style={styles.statusServiceText}>{service.estado}</Text>
+                <Text style={styles.statusServiceText}>
+                  {service.estado === 'EN_PROCESO' ? 'En Proceso' : service.estado.charAt(0) + service.estado.slice(1).toLowerCase()}
+                </Text>
               </View>
             </View>
 
@@ -280,11 +283,12 @@ export default function MyQuotes() {
         );
       })}
 
-      {myServices.length === 0 && (
-        <Text style={styles.emptyText}>
-          No has creado ningún servicio todavía
-        </Text>
-      )}
+        {myServices.length === 0 && (
+          <Text style={styles.emptyText}>
+            No has creado ningún servicio todavía
+          </Text>
+        )}
+      </ScrollView>
 
       <Modal
         visible={ratingModalVisible}

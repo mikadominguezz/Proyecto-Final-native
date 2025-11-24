@@ -1,11 +1,11 @@
 import { useRouter } from 'expo-router';
 import {
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  SafeAreaView,
+  View
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
 
@@ -40,17 +40,18 @@ export default function Dashboard() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Dashboard</Text>
-        <Text style={styles.subtitle}>
-          Bienvenido, {state.currentUser.nombre}
-        </Text>
-        <View style={styles.roleBadge}>
-          <Text style={styles.roleText}>{state.currentUser.role}</Text>
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.title}>Dashboard</Text>
+          <Text style={styles.subtitle}>
+            Bienvenido, {state.currentUser.nombre}
+          </Text>
+          <View style={styles.roleBadge}>
+            <Text style={styles.roleText}>{state.currentUser.role}</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.statsContainer}>
+        <View style={styles.statsContainer}>
         <View style={styles.statCard}>
           <Text style={styles.statNumber}>{myServices.length}</Text>
           <Text style={styles.statLabel}>Mis Servicios</Text>
@@ -101,25 +102,45 @@ export default function Dashboard() {
         )}
 
         {state.currentUser.role === 'Proveedor Servicio' && (
-          <TouchableOpacity
-            style={styles.actionButton}
-            onPress={() => router.push('/(tabs)/explore')}
-          >
-            <Text style={styles.actionButtonText}>
-              🔍 Ver Servicios Disponibles
-            </Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => router.push('/(tabs)/explore')}
+            >
+              <Text style={styles.actionButtonText}>
+                🔍 Ver Servicios Disponibles
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => router.push('/create-supply')}
+            >
+              <Text style={styles.actionButtonText}>
+                📦 Solicitar Insumos
+              </Text>
+            </TouchableOpacity>
+          </>
         )}
 
         {state.currentUser.role === 'Proveedor Insumos' && (
-          <TouchableOpacity
-            style={styles.actionButton}
-            onPress={() => router.push('/(tabs)/counter')}
-          >
-            <Text style={styles.actionButtonText}>
-              📦 Ver Insumos Disponibles
-            </Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => router.push('/(tabs)/counter')}
+            >
+              <Text style={styles.actionButtonText}>
+                📦 Ver Insumos Disponibles
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => router.push('/create-supply')}
+            >
+              <Text style={styles.actionButtonText}>
+                ➕ Solicitar Insumos
+              </Text>
+            </TouchableOpacity>
+          </>
         )}
       </View>
 
@@ -146,6 +167,7 @@ export default function Dashboard() {
           ))
         )}
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

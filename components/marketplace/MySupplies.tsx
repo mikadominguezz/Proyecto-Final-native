@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    SafeAreaView,
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { useApp } from '../../app/context/AppContext';
+import SuppliesList from './SuppliesList';
 
 export default function MySupplies() {
   const { state, dispatch } = useApp();
+  const [activeTab, setActiveTab] = useState<'available' | 'mine'>('available');
 
   const handleSelectOffer = (supplyId: number, offerId: number) => {
     Alert.alert(
@@ -57,13 +59,51 @@ export default function MySupplies() {
     (s) => s.solicitanteId === state.currentUser!.id
   );
 
+  if (activeTab === 'available') {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tab, styles.tabActive]}
+            onPress={() => setActiveTab('available')}
+          >
+            <Text style={[styles.tabText, styles.tabTextActive]}>Disponibles</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tab}
+            onPress={() => setActiveTab('mine')}
+          >
+            <Text style={styles.tabText}>Mis Solicitudes</Text>
+          </TouchableOpacity>
+        </View>
+        <SuppliesList />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.tabContainer}>
+        <TouchableOpacity
+          style={styles.tab}
+          onPress={() => setActiveTab('available')}
+        >
+          <Text style={styles.tabText}>Disponibles</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tab, styles.tabActive]}
+          onPress={() => setActiveTab('mine')}
+        >
+          <Text style={[styles.tabText, styles.tabTextActive]}>Mis Solicitudes</Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.header}>
         <Text style={styles.title}>Mis Solicitudes de Insumos</Text>
       </View>
 
-      {mySupplies.map((supply) => {
+      <ScrollView>
+        {mySupplies.map((supply) => {
         const offers = state.supplyOffers.filter((o) => o.insumoId === supply.id);
 
         return (
@@ -163,11 +203,12 @@ export default function MySupplies() {
         );
       })}
 
-      {mySupplies.length === 0 && (
-        <Text style={styles.emptyText}>
-          No has solicitado ningún insumo todavía
-        </Text>
-      )}
+        {mySupplies.length === 0 && (
+          <Text style={styles.emptyText}>
+            No has solicitado ningún insumo todavía
+          </Text>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -176,6 +217,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  tab: {
+    flex: 1,
+    paddingVertical: 16,
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  tabActive: {
+    borderBottomColor: '#FF9800',
+  },
+  tabText: {
+    fontSize: 16,
+    color: '#666',
+    fontWeight: '500',
+  },
+  tabTextActive: {
+    color: '#FF9800',
+    fontWeight: '600',
   },
   header: {
     backgroundColor: 'white',
